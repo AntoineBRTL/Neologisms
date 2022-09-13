@@ -12,7 +12,7 @@ def getWordsFromDictionary(path:str = "./frdic.txt"):
     return array
 
 def _placeInOccurences(lst:list, locationX:int, locationY:int):
-
+    """Teste si l'emplacement est correct, dans ce cas, ajoute 1 a cette emplacement"""
     # certains caracteres comme "-" ne sont pas dans l'alphabet et donc ne sont pas compris entre 0 et 25
     # ils ne serons donc pas repertoiriés dans le tableau
     # 27 pour locationY pour les 2 cases "debut" & "fin" en plus
@@ -23,6 +23,7 @@ def _placeInOccurences(lst:list, locationX:int, locationY:int):
 
 def _normalizeOccurences(lst:list, wordlist:list):
 
+    """Divise par la somme du tableau"""
     # normalisation sur les lettres
     for x in range(26):
 
@@ -34,7 +35,7 @@ def _normalizeOccurences(lst:list, wordlist:list):
             # division par l'addition de la ligne entiere
             lst[x][y] /= letterSum
 
-    # normalization sur les cases "debut" & "fin"
+    # normalization sur les cases "debut -> 26" & "fin -> 27"
     for x in range(26):
         lst[x][26] /= len(wordlist)
         lst[x][27] /= len(wordlist)

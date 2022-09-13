@@ -1,6 +1,7 @@
 import random
 
 def generateWord(occurrenceList:list, firstLetter:str, length:int, wordlist:list):
+    """Genere un mot"""
 
     # systeme par tolerance -> 
     # un nombre "t" est la probabilité / tolerance  
@@ -12,9 +13,11 @@ def generateWord(occurrenceList:list, firstLetter:str, length:int, wordlist:list
     # -> alors cette lettre est choisie
     tolerance = 70
 
+    # TODO: proba pour la premiere lettre
+
     word = firstLetter
 
-    for n in range(length - 1):
+    for n in range((length * 2) - 1):
 
         x = ord(word[len(word) - 1]) - 97
         y = random.randint(0, 25)
@@ -25,7 +28,7 @@ def generateWord(occurrenceList:list, firstLetter:str, length:int, wordlist:list
 
         # si on a plus de chance de finir le mot que d'avoir une lettre, le mot se fini
         # et si le mot a plus de 3 lettres !
-        if(endProba > maxProba and len(word) > 3):
+        if(endProba > maxProba and len(word) > length):
             return word
 
         while(occurrenceList[x][y] < (1 - (tolerance / 100)) * maxProba):
@@ -39,10 +42,11 @@ def generateWord(occurrenceList:list, firstLetter:str, length:int, wordlist:list
         return generateWord(occurrenceList, firstLetter, length, wordlist)
 
 def generateRandomWord(occurrenceList:list, count:int, wordlist:list):
+    """Genere une liste de mots"""
 
     wordsGenerated = []
 
     for n in range(count):
-        wordsGenerated.append(generateWord(occurrenceList, chr(random.randint(0, 25) + 97), random.randint(5, 11), wordlist))
+        wordsGenerated.append(generateWord(occurrenceList, chr(random.randint(0, 25) + 97), random.randint(3, 11), wordlist))
 
     return wordsGenerated
