@@ -11,7 +11,7 @@ def getWordsFromDictionary(path:str = "./frdic.txt"):
 
     return array
 
-def placeInOccurences(lst:list, locationX:int, locationY:int):
+def _placeInOccurences(lst:list, locationX:int, locationY:int):
 
     # certains caracteres comme "-" ne sont pas dans l'alphabet et donc ne sont pas compris entre 0 et 25
     # ils ne serons donc pas repertoiriés dans le tableau
@@ -21,7 +21,7 @@ def placeInOccurences(lst:list, locationX:int, locationY:int):
 
     return lst
 
-def normalizeOccurences(lst:list, wordlist:list):
+def _normalizeOccurences(lst:list, wordlist:list):
 
     # normalisation sur les lettres
     for x in range(26):
@@ -58,7 +58,7 @@ def getOccurrences(wordlist:list):
         locationX = ord(firstLetter) - offset
         locationY = 26
 
-        placeInOccurences(occurrenceList, locationX, locationY)
+        _placeInOccurences(occurrenceList, locationX, locationY)
 
         # fin du tableau
         lastLetter = word[len(word) - 1]
@@ -67,7 +67,7 @@ def getOccurrences(wordlist:list):
         locationX = ord(lastLetter) - offset
         locationY = 27
 
-        placeInOccurences(occurrenceList, locationX, locationY)
+        _placeInOccurences(occurrenceList, locationX, locationY)
 
         # -1 car la derniere lettre n'a pas de lettre suivante
         for n in range(len(word) - 1):
@@ -84,9 +84,9 @@ def getOccurrences(wordlist:list):
             # certains caracteres comme "-" ne sont pas dans l'alphabet et donc ne sont pas compris entre 0 et 25
             # ils ne serons donc pas repertoiriés dans le tableau
             if(0 <= locationX <= 25 and 0 <= locationY <= 25):
-                placeInOccurences(occurrenceList, locationX, locationY)
+                _placeInOccurences(occurrenceList, locationX, locationY)
 
     # on normalise le tableau des occurrences
-    normalizeOccurences(occurrenceList, wordlist)
+    _normalizeOccurences(occurrenceList, wordlist)
 
     return occurrenceList
