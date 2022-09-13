@@ -1,6 +1,6 @@
 import random
 
-def generateWord(occurrenceList:list[int], firstLetter:str, length:int):
+def generateWord(occurrenceList:list, firstLetter:str, length:int):
 
     tolerance = 50
     word = firstLetter
@@ -10,7 +10,7 @@ def generateWord(occurrenceList:list[int], firstLetter:str, length:int):
         x = ord(word[len(word) - 1]) - 97
         y = random.randint(0, 25)
 
-        maxProba = max(occurrenceList[x])
+        maxProba = max(occurrenceList[x][0:26])
 
         while(occurrenceList[x][y] < (1 - (tolerance / 100)) * maxProba):
             y = random.randint(0, 25)
@@ -19,7 +19,7 @@ def generateWord(occurrenceList:list[int], firstLetter:str, length:int):
 
     return word
 
-def generateRandomWord(occurrenceList:list[int], count:int):
+def generateRandomWord(occurrenceList:list, count:int):
 
     wordsGenerated = []
 
