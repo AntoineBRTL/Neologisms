@@ -1,45 +1,45 @@
+from binascii import b2a_base64
 import random
 
-def generateWord(occurrenceList:list, firstLetter:str, length:int, wordlist:list):
+def generateWord(occurrenceList:list, firstLetters:str, length:int, wordlist:list):
     """Genere un mot"""
 
-    # systeme par tolerance -> 
-    # un nombre "t" est la probabilité / tolerance  
-    # on recupere la proba "p" de la lettre qui a le plus de chance de tomber 
-    # on effectue le produit t * p nous donnant une proba a son tour
-    # une lettre est tiré aleatoirement
-    #
-    # si la proba d'avoir cette lettre en suivant est plus grande que t * p
-    # -> alors cette lettre est choisie
-    tolerance = 70
+    # TODO: generer a partir de proba
+    word = ""
 
-    # TODO: proba pour la premiere lettre
+    for i in range(length):
 
-    word = firstLetter
+        offset = 97
 
-    for n in range((length * 2) - 1):
+        # on recupere le tableau des proba que l'on veut
+        if(i == 0):
+            proba = firstLetters
+        else:
+            # on recupere la derniere lettre
+            lastLetter = word[len(word) - 1]
 
-        x = ord(word[len(word) - 1]) - 97
-        y = random.randint(0, 25)
+            # on recupere sa localisation dans le tableau 
+            location = ord(lastLetter) - offset
+            proba = occurrenceList[location]
 
-        # proba qu'elle soit derniere
-        endProba = occurrenceList[x][27]
-        maxProba = max(occurrenceList[x][0:26])
+        # on tire un nombre aleatoire
+        rand = random.random()
 
-        # si on a plus de chance de finir le mot que d'avoir une lettre, le mot se fini
-        # et si le mot a plus de 3 lettres !
-        if(endProba > maxProba and len(word) > length):
-            return word
+        # on teste a quel ensemble il appartient
+        for n in range(26 - 1):
+            a = proba[n]
+            b = proba[n + 1]
 
-        while(occurrenceList[x][y] < (1 - (tolerance / 100)) * maxProba):
-            y = random.randint(0, 25)
+            if(a < rand < b):
+                word += chr((n + 1) + offset)
+                break
 
-        word += chr(y + 97)
+            # fin de boucle
+            if(n == 24):
+                return word
 
-    if(word in wordlist):
-        return word
-    else:
-        return generateWord(occurrenceList, firstLetter, length, wordlist)
+    return word
+
 
 def generateRandomWord(occurrenceList:list, count:int, wordlist:list):
     """Genere une liste de mots"""
