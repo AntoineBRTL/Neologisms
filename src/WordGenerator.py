@@ -1,26 +1,27 @@
 from binascii import b2a_base64
 import random
 
-def generateWord(occurrenceList:list, firstLetters:str, length:int, wordlist:list):
+def generateWord(occurrenceList:list, firstLetters:str, wordlist:list):
     """Genere un mot"""
 
-    # TODO: generer a partir de proba
     word = ""
 
-    for i in range(length):
+    while(True):
 
         offset = 97
 
-        # on recupere le tableau des proba que l'on veut
-        if(i == 0):
-            proba = firstLetters
-        else:
+        if(len(word) > 0):
+
+            # on recupere le tableau des proba que l'on veut
             # on recupere la derniere lettre
-            lastLetter = word[len(word) - 1]
+            oldCharacter = word[len(word) - 1]
 
             # on recupere sa localisation dans le tableau 
-            location = ord(lastLetter) - offset
+            location = ord(oldCharacter) - offset
             proba = occurrenceList[location]
+
+        else:
+            proba = firstLetters
 
         # on tire un nombre aleatoire
         rand = random.random()
@@ -32,13 +33,15 @@ def generateWord(occurrenceList:list, firstLetters:str, length:int, wordlist:lis
 
             if(a < rand < b):
                 word += chr((n + 1) + offset)
+                print(word)
                 break
-
-            # fin de boucle
+        
             if(n == 24):
+                # fin du mot
+                if(len(word) <= 5):
+                    return generateWord(occurrenceList, firstLetters, wordlist)
                 return word
 
-    return word
 
 
 def generateRandomWord(occurrenceList:list, count:int, wordlist:list):

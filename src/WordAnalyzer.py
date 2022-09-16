@@ -1,34 +1,32 @@
 def getWordsFromDictionary(path:str = "./frdic.txt"):
     """Renvois un tableau content les mots d'un dictionaire"""
 
-    # lire le fichier et le mettre dans une liste
-    array = []
+    dictionaryAsList = []
     file = open(path)
 
-    for ligne in file:
-        # On enleve les caracteres comme celui du saut de ligne ("\n")
-        array.append(ligne.replace("\n", "", 1))
+    for line in file:
+        dictionaryAsList.append(line.replace("\n", "", 1))
 
-    return array
+    return dictionaryAsList
 
-def _placeInOccurences(lst:list, locationX:int, locationY:int):
+def _placeInOccurences(occurenceList:list, locationX:int, locationY:int):
     """Teste si l'emplacement est correct, dans ce cas, ajoute 1 a cette emplacement"""
     # certains caracteres comme "-" ne sont pas dans l'alphabet et donc ne sont pas compris entre 0 et 25
     # ils ne serons donc pas repertoiriés dans le tableau
     # 27 pour locationY pour les 2 cases "debut" & "fin" en plus
     if(0 <= locationX <= 25 and 0 <= locationY <= 26):
-        lst[locationX][locationY] += 1
+        occurenceList[locationX][locationY] += 1
 
-    return lst
+    return occurenceList
 
-def _normalizeOccurences(occurrenceList:list, firstLetterList:list, wordlist:list):
+def _normalizeOccurences(occurrenceList:list, firstLetterList:list, listOfWords:list):
 
     """Divise par la somme du tableau"""
     # normalisation sur les lettres
     for x in range(26):
 
-        # somme de toute la liste à l'exeption des cases "debut" & "fin"
-        letterSum = sum(occurrenceList[x][0:26])
+        # somme de toute la liste à l'exeption de "fin"
+        letterSum = sum(occurrenceList[x])
         firstLettreSum = sum(firstLetterList)
 
         for y in range(26):
@@ -39,9 +37,11 @@ def _normalizeOccurences(occurrenceList:list, firstLetterList:list, wordlist:lis
             # normalization du tableau des premieres lettres
             firstLetterList[y] /= firstLettreSum
 
+        occurrenceList[x][26] /= letterSum
+
     # normalization sur les caracteres de fin
     for x in range(26):
-        occurrenceList[x][26] /= len(wordlist)
+        occurrenceList[x][26] /= len(listOfWords)
 
     return occurrenceList, firstLetterList
 
@@ -67,50 +67,58 @@ def _cumulateOccurences(occurrenceList:list, firstLetterList:list):
 
     return cumulated, firstLetterCumulated
 
-def getOccurrences(wordlist:list):
+def getOccurrences(listOfWords:list):
     """Renvois un tableau double contenent les probabilités de lettre suivante par rapport a une autre, a partir d'une liste de mot"""
 
-    # ord("a") : 97
+    # car ord("a") = 97
     offset = 97
 
+    # 26 * 27 
+    # la derniere ligne est pour les fins
     occurrenceList = [[0 for x in range(27)] for x in range(26)]
-    firstLetterList = [0 for x in range(26)]
 
-    for word in wordlist:
+    # autre tableau pour les premieres lettres
+    firstCharactersList = [0 for x in range(26)]
 
-        if(0 < ord(word[0].lower()) - offset < 25):
-            firstLetterList[ord(word[0].lower()) - offset] += 1
+    for word in listOfWords:
 
-        # fin du tableau
-        lastLetter = word[len(word) - 1]
+        # premier caractere
+        firstCharacter = word[0].lower()
+        location = ord(firstCharacter) - offset
 
-        # placer la derniere lettre dans le tableau 
-        locationX = ord(lastLetter) - offset
-        locationY = 26
+        # on teste si le premier Carractere est une letter de l'alphabet 
+        if(0 <= location <= 25):
+            firstCharactersList[location] += 1
 
-        _placeInOccurences(occurrenceList, locationX, locationY)
-
+        # autres caracteres
         # -1 car la derniere lettre n'a pas de lettre suivante
         for n in range(len(word) - 1):
             
             # on recupere la lettre a l'indice n du mot -> letter
             # on recupere son equivalent entier, il sert d'index pour le tableau -> locationX
-            letter = word[n].lower()
-            locationX = ord(letter) - offset
+            character = word[n].lower()
+            locationX = ord(character) - offset
 
             # meme principe pour la lettre suivante -> (n + 1)
-            nextLetter = word[(n + 1)].lower()
-            locationY = ord(nextLetter) - offset
+            nextCharacter = word[n + 1].lower()
+            locationY = ord(nextCharacter) - offset
 
-            # certains caracteres comme "-" ne sont pas dans l'alphabet et donc ne sont pas compris entre 0 et 25
-            # ils ne serons donc pas repertoiriés dans le tableau
-            if(0 <= locationX <= 25 and 0 <= locationY <= 25):
-                _placeInOccurences(occurrenceList, locationX, locationY)
+            _placeInOccurences(occurrenceList, locationX, locationY)
+                
+
+        # caractere de fin
+        lastCharacter = word[len(word) - 1]
+
+        # placer la derniere lettre dans le tableau 
+        locationX = ord(lastCharacter) - offset
+        locationY = 26
+
+        _placeInOccurences(occurrenceList, locationX, locationY)
 
     # on normalise le tableau des occurrences
-    occurrenceList, firstLetterList = _normalizeOccurences(occurrenceList, firstLetterList, wordlist)
+    occurrenceList, firstCharactersList = _normalizeOccurences(occurrenceList, firstCharactersList, listOfWords)
 
     # faire des probas cumulées
-    occurrenceList, firstLetterList = _cumulateOccurences(occurrenceList, firstLetterList)
+    occurrenceList, firstCharactersList = _cumulateOccurences(occurrenceList, firstCharactersList)
 
-    return occurrenceList, firstLetterList
+    return occurrenceList, firstCharactersList
