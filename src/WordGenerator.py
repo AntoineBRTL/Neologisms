@@ -25,17 +25,19 @@ def generateWord(occurrenceList:list, firstLetters:str, wordlist:list):
         # on tire un nombre aleatoire
         rand = random.random()
 
-        # on teste a quel ensemble il appartient
-        for n in range(26 - 1):
+        # on teste entre quelles probabilités le nombre aleatoire se trouve
+        for n in range(26):
             a = proba[n]
-            b = proba[n + 1]
 
-            if(a < rand < b):
-                word += chr((n + 1) + offset)
+            if(rand < a):
+                word += chr(n + offset)
                 break
         
-            if(n == 24):
-                # fin du mot
+            # On arrive a la lettre "z" et le nombre aleatoire est plus grand que la probabilité d'avoir la lettre "z"
+            if(n == 25):
+
+                # On ce cas on arrete le mot si il contient assez de lettres sinon on en regenere un
                 if(len(word) <= 5):
                     return generateWord(occurrenceList, firstLetters, wordlist)
+
                 return word
