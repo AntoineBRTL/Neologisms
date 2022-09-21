@@ -1,7 +1,7 @@
 # Neologisms
 Neologims est un programme developpé en Python dans le cadre d'un projets NSI au lycée.
 
-Ce programme genere des [neologismes](https://fr.wikipedia.org/wiki/N%C3%A9ologisme) en utilisant de reels dictionnaires et ne necessite aucunes libraries.
+Ce programme génére des [néologismes](https://fr.wikipedia.org/wiki/N%C3%A9ologisme) en utilisant de réels dictionnaires et ne nécessite aucunes libraries.
 
 ## Tester
 Executer les commandes suivantes :
@@ -9,13 +9,13 @@ Executer les commandes suivantes :
 2. `cd ./Neologisms`
 3. `python ./src/Main.py`
 
-Quelques exemples de mots generés :
+Quelques exemples de mots générés :
 - `echivente`
 - `chonevet`
 - `ideostole`
 
 ## Utilisation
-1. Commencer par recuperer une liste de mots, vous pouvez utiliser
+1. Commencer par récuperer une liste de mots, vous pouvez utiliser
 `WordAnalyzer.getWordsFromDictionary()` prenant en argument un chemin vers un fichier contenant des mots - NB : vous pouvez utiliser un des dictionnaires se situant a la racine.
-2. Recuperer une liste de probabilites, `WordAnalyzer.getOccurrences()` prenant en argument la liste de mots et revoyant un tuple.
-3. Generer un mot, `WordGenerator.generateWord()` prenant en argument le premier element du tuple, puis le second et enfin la liste de mots.
+2. Récuperer une liste de probabilites, `WordAnalyzer.getOccurrences()` prenant en argument la liste de mots et renvoyant un tuple.
+3. Générer un mot, `WordGenerator.generateWord()` prenant en argument le premier élément du tuple, puis le second et enfin la liste de mots.
