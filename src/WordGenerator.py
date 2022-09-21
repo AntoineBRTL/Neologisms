@@ -1,4 +1,3 @@
-from binascii import b2a_base64
 import random
 
 def generateWord(occurrenceList:list, firstLetters:str, wordlist:list):
@@ -33,7 +32,6 @@ def generateWord(occurrenceList:list, firstLetters:str, wordlist:list):
 
             if(a < rand < b):
                 word += chr((n + 1) + offset)
-                print(word)
                 break
         
             if(n == 24):
@@ -41,15 +39,3 @@ def generateWord(occurrenceList:list, firstLetters:str, wordlist:list):
                 if(len(word) <= 5):
                     return generateWord(occurrenceList, firstLetters, wordlist)
                 return word
-
-
-
-def generateRandomWord(occurrenceList:list, count:int, wordlist:list):
-    """Genere une liste de mots"""
-
-    wordsGenerated = []
-
-    for n in range(count):
-        wordsGenerated.append(generateWord(occurrenceList, chr(random.randint(0, 25) + 97), random.randint(3, 11), wordlist))
-
-    return wordsGenerated
