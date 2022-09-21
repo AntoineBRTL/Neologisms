@@ -5,7 +5,7 @@ Ce programme genere de faux mots en utilisant de reels dictionnaires et ne neces
 
 ## Tester
 Executer les commandes suivantes :
-1. `git clone https://github.com/AntoineBRTL/Neologisms.git`
+1. `git clone https://github.com/AntoineBRTL/Neologisms.git .`
 2. `cd ./Neologisms`
 3. `python ./src/Main.py`
 
