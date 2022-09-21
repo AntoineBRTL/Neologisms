@@ -1,7 +1,7 @@
 # Neologisms
 Neologims est un programme developpé en Python dans le cadre d'un projets NSI au lycée.
 
-Ce programme genere des [neologismes]("https://fr.wikipedia.org/wiki/N%C3%A9ologisme") en utilisant de reels dictionnaires et ne necessite aucunes libraries.
+Ce programme genere des [neologismes](https://fr.wikipedia.org/wiki/N%C3%A9ologisme) en utilisant de reels dictionnaires et ne necessite aucunes libraries.
 
 ## Tester
 Executer les commandes suivantes :
