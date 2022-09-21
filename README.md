@@ -5,7 +5,7 @@ Ce programme génére des [néologismes](https://fr.wikipedia.org/wiki/N%C3%A9ol
 
 ## Tester
 Executer les commandes suivantes :
-1. `git clone https://github.com/AntoineBRTL/Neologisms.git .`
+1. `git clone https://github.com/AntoineBRTL/Neologisms.git`
 2. `cd ./Neologisms`
 3. `python ./src/Main.py`
 
